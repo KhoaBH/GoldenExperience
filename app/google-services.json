@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "483727670959",
+    "project_id": "golden-experience-87a44",
+    "storage_bucket": "golden-experience-87a44.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:483727670959:android:b2b428be8b3cb26466de5a",
+        "android_client_info": {
+          "package_name": "com.anhkhoa.goldenexperience"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuWco0XO6wRrt8I15b72XztelmXPNefTE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

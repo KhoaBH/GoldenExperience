@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    android:background="#FFFFFF">
+
+    <!-- Title -->
+
+    <!-- Current Weight -->
+    <TextView
+        android:id="@+id/txtTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:text="My Weight"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginBottom="8dp">
+
+        <TextView
+            android:id="@+id/txtCurrentWeightLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current Weight"
+            android:textSize="16sp"
+            android:textColor="#888" />
+
+        <TextView
+            android:id="@+id/txtCurrentWeightValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="64 kg"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            android:textColor="#1C1C1C" />
+    </LinearLayout>
+
+    <!-- Current Height -->
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/LineChart"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="16dp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="start"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:id="@+id/txtCurrentHeightLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Current Height"
+            android:textSize="16sp"
+            android:textColor="#888" />
+
+        <TextView
+            android:id="@+id/txtCurrentHeightValue"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="170 cm"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#1C1C1C" />
+    </LinearLayout>
+    <!-- BMI Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="#E5F8E5"
+        android:padding="12dp"
+        android:layout_marginBottom="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="YOUR BMI"
+            android:textSize="16sp"
+            android:textColor="#2BC132" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/BMI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="23.0 "
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#1C1C1C" />
+            <TextView
+                android:id="@+id/BMIStatus"
+                android:text="Normal"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#1C1C1C"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+            </TextView>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Progress Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        android:layout_marginBottom="16dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="YOUR PROGRESS"
+                android:textSize="14sp"
+                android:textColor="#888" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="64 kg"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Left"
+                android:textSize="14sp"
+                android:textColor="#888" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="16 kg"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Target"
+                android:textSize="14sp"
+                android:textColor="#888" />
+
+            <TextView
+                android:id="@+id/edtTarget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="50 kg"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Navigation Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+
+        <Button
+            android:id="@+id/btnUpdateWeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update Weight"
+            android:backgroundTint="#17A2B8"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:paddingHorizontal="12dp"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnUpdateHeight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Update Height"
+            android:backgroundTint="#FF9800"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:paddingHorizontal="12dp"
+            android:layout_marginEnd="8dp" />
+
+        <Button
+            android:id="@+id/btnSetTarget"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Set Target"
+            android:backgroundTint="#28A745"
+            android:textColor="#fff"
+            android:textSize="14sp"
+            android:paddingHorizontal="12dp" />
+    </LinearLayout>
+</LinearLayout>
