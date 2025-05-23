@@ -37,9 +37,9 @@ class HomeFragment : Fragment() {
 //            loadFragment(FocusFragment())
 //        }
 //
-//        view.findViewById<View>(R.id.mealCard)?.setOnClickListener {
-//            loadFragment(MealFragment())
-//        }
+        view.findViewById<View>(R.id.mealCard)?.setOnClickListener {
+            loadFragment(MealPrepFragment())
+        }
 //
 //        view.findViewById<View>(R.id.screenTimeCard)?.setOnClickListener {
 //            loadFragment(ScreenTimeFragment())
