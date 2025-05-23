@@ -47,6 +47,12 @@ class LoginForm : AppCompatActivity() {
         val passwordField = findViewById<EditText>(R.id.password)
         val loginButton = findViewById<Button>(R.id.loginButton)
         val signupLink = findViewById<TextView>(R.id.signupText)
+        val forgotPassword = findViewById<TextView>(R.id.forgotPassword)
+        forgotPassword.setOnClickListener {
+            val intent = Intent(this, ForgetPassForm::class.java)
+            startActivity(intent)
+        }
+
 
         val remember = prefs.getBoolean("remember", false)
         if (remember) {
