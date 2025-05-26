@@ -41,9 +41,9 @@ class HomeFragment : Fragment() {
             loadFragment(MealPrepFragment())
         }
 //
-//        view.findViewById<View>(R.id.screenTimeCard)?.setOnClickListener {
-//            loadFragment(ScreenTimeFragment())
-//        }
+        view.findViewById<View>(R.id.screenTimeCard)?.setOnClickListener {
+            loadFragment(ScreenTimeFragment())
+        }
 
         return view
     }
