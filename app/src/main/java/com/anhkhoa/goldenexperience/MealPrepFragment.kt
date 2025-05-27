@@ -1,6 +1,7 @@
 package com.anhkhoa.goldenexperience
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,6 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.anhkhoa.goldenexperience.databinding.FragmentMealPrepBinding
@@ -49,65 +52,52 @@ class MealPrepFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-       // allMeals = readMealsFromAssets(requireContext()) // load từ file JSON
-      //  uploadMealsToFirestore(allMeals)
+//        allMeals = readMealsFromAssets(requireContext()) // load từ file JSON
+//        uploadMealsToFirestore(allMeals)
+        val breakfastIcon = view.findViewById<ImageView>(R.id.breakfastIcon)
+        breakfastIcon.setOnClickListener {
+            val intent = Intent(requireContext(), MealPlanActivity::class.java)
+            intent.putExtra("meal_type", "breakfast") // Gửi kèm dữ liệu nếu cần
+            startActivity(intent)
+        }
+        // Khởi tạo adapter với mode hiện nút Add
+        adapter = MealAdapter(filteredMeals,
+            onAddClick = { meal ->
+                // xử lý nút add
+                Toast.makeText(context, "Add món: ${meal.name}", Toast.LENGTH_SHORT).show()
+            },
+            onMealClick = { meal ->
+                // xử lý nút detail
+                val intent = Intent(context, MealDetail::class.java)
+                intent.putExtra("meal_data", meal)
+                context?.startActivity(intent)
+            }
+        )
 
-        adapter = MealAdapter(filteredMeals)
+
         binding.rvMeals.layoutManager = LinearLayoutManager(requireContext())
         binding.rvMeals.adapter = adapter
 
         loadMealsFromFirestore()
 
-
-        adapter = MealAdapter(filteredMeals)
-        binding.rvMeals.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvMeals.adapter = adapter
-
         val searchEditText = binding.foodSearchBar.searchEditText
         searchEditText.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun afterTextChanged(s: Editable?) {}
-
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 val query = s.toString().trim().lowercase()
                 filteredMeals.clear()
                 if (query.isEmpty()) {
-                    // Không có từ tìm, ẩn RecyclerView đi
                     binding.rvMeals.visibility = View.GONE
                 } else {
-                    // Có từ tìm, lọc và hiện RecyclerView
                     filteredMeals.addAll(allMeals.filter { it.name.lowercase().startsWith(query) })
                     binding.rvMeals.visibility = View.VISIBLE
                 }
                 adapter.notifyDataSetChanged()
             }
         })
-
     }
 
-    // Hàm đọc file JSON trong assets
-    fun readMealsFromAssets(context: Context, fileName: String = "mealprep_gym_100.json"): List<Meal> {
-        val jsonString = context.assets.open(fileName).bufferedReader().use { it.readText() }
-        val gson = Gson()
-        val mealListType = object : TypeToken<List<Meal>>() {}.type
-        return gson.fromJson(jsonString, mealListType)
-    }
-
-    // Hàm upload món ăn lên Firestore
-    fun uploadMealsToFirestore(meals: List<Meal>) {
-        val db = FirebaseFirestore.getInstance()
-        for (meal in meals) {
-            db.collection("meals")
-                .add(meal)
-                .addOnSuccessListener {
-                    Log.d("DEBUG_MEAL", meal.toString())
-                    Log.d("Upload", "Added meal: ${meal.name}")
-                }
-                .addOnFailureListener { e ->
-                    Log.e("Upload", "Error adding meal ${meal.name}", e)
-                }
-        }
-    }
     private fun loadMealsFromFirestore() {
         val db = FirebaseFirestore.getInstance()
         db.collection("meals")
@@ -132,5 +122,18 @@ class MealPrepFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
+    fun uploadMealsToFirestore(meals: List<Meal>) {
+        val db = FirebaseFirestore.getInstance()
+        for (meal in meals) {
+            db.collection("meals")
+                .add(meal)
+                .addOnSuccessListener {
+                    Log.d("DEBUG_MEAL", meal.toString())
+                    Log.d("Upload", "Added meal: ${meal.name}")
+                }
+                .addOnFailureListener { e ->
+                    Log.e("Upload", "Error adding meal ${meal.name}", e)
+                }
+        }
+    }
 }

@@ -46,7 +46,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.firestore.ktx)
     testImplementation(libs.junit)
-
+    implementation ("com.google.code.gson:gson:2.13.1")
     implementation ("com.google.android.material:material:1.6.0")
     implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
     implementation("androidx.credentials:credentials:1.3.0")
