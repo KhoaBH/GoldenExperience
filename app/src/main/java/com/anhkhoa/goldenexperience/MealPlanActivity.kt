@@ -15,11 +15,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import android.widget.Button
 import androidx.core.widget.addTextChangedListener
+import com.anhkhoa.goldenexperience.adapters.MealSelectedAdapter
 import com.anhkhoa.goldenexperience.models.Meal
 import com.google.firebase.firestore.FirebaseFirestore
 
 class MealPlanActivity : AppCompatActivity() {
-
+    private val selectedMeals = mutableListOf<Meal>()
+    private lateinit var selectedAdapter: MealSelectedAdapter
     private lateinit var allMeals: MutableList<Meal> // Dữ liệu từ Firebase
     private lateinit var adapter: MealAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -38,7 +40,16 @@ class MealPlanActivity : AppCompatActivity() {
         addBtn.setOnClickListener {
             showSearchMealDialog()
         }
+        val recyclerViewMeals = findViewById<RecyclerView>(R.id.recyclerViewMeals)
+        selectedAdapter = MealSelectedAdapter(
+            selectedMeals
+        )
+        recyclerViewMeals.layoutManager = LinearLayoutManager(this)
+        recyclerViewMeals.adapter = selectedAdapter
+
+
     }
+
 
     private fun showSearchMealDialog() {
         val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_search_meal, null)
@@ -54,11 +65,10 @@ class MealPlanActivity : AppCompatActivity() {
         val filteredList = mutableListOf<Meal>()
         adapter = MealAdapter(filteredList,mode = MealAdapterMode.SELECT_WITH_ADD,
             onAddClick = { meal ->
-                // xử lý nút add
+                selectedAdapter.addMeal(meal)
                 Toast.makeText(this, "Add món: ${meal.name}", Toast.LENGTH_SHORT).show()
             },
             onMealClick = { meal ->
-                // xử lý nút detail
                 val intent = Intent(this, MealDetail::class.java)
                 intent.putExtra("meal_data", meal)
                 this?.startActivity(intent)
