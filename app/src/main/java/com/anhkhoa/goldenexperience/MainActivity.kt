@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> loadFragment(HomeFragment())
-                R.id.nav_search -> loadFragment(WeightFragment())
+                R.id.nav_search -> loadFragment(AddMealFragment())
                 R.id.nav_profile -> loadFragment(UserFragment())
             }
             true
