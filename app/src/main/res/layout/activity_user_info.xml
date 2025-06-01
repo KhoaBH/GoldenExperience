@@ -12,12 +12,12 @@
         android:padding="24dp"
         android:gravity="center_horizontal">
 
-        <!-- Họ và tên -->
+        <!-- Full Name -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Họ và tên"
+            android:hint="Full Name"
             app:boxCornerRadiusTopStart="12dp"
             app:boxCornerRadiusTopEnd="12dp">
 
@@ -27,12 +27,27 @@
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Tuổi -->
+        <!-- Date of Birth -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Tuổi"
+            android:hint="Date of Birth (dd/MM/yyyy)"
+            android:layout_marginTop="12dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edtDateOfBirth"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="date" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Age -->
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Age"
             android:layout_marginTop="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -42,12 +57,12 @@
                 android:inputType="number" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Chiều cao -->
+        <!-- Height -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Chiều cao (cm)"
+            android:hint="Height (cm)"
             android:layout_marginTop="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -57,12 +72,12 @@
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Cân nặng -->
+        <!-- Weight -->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Cân nặng (kg)"
+            android:hint="Weight (kg)"
             android:layout_marginTop="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -72,11 +87,11 @@
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <!-- Gender Spinner -->
+        <!-- Gender -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Giới tính"
+            android:text="Gender"
             android:textSize="16sp"
             android:textColor="#444"
             android:layout_marginTop="16dp" />
@@ -91,7 +106,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mức độ hoạt động"
+            android:text="Activity Level"
             android:textSize="16sp"
             android:textColor="#444"
             android:layout_marginTop="16dp" />
@@ -102,11 +117,11 @@
             android:layout_height="wrap_content"
             android:backgroundTint="#666" />
 
-        <!-- Goal -->
+        <!-- Target -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Mục tiêu"
+            android:text="Target"
             android:textSize="16sp"
             android:textColor="#444"
             android:layout_marginTop="16dp" />
@@ -115,7 +130,7 @@
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Mục tiêu (kg)"
+            android:hint="Target (kg)"
             android:layout_marginTop="12dp">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -125,13 +140,12 @@
                 android:inputType="numberDecimal" />
         </com.google.android.material.textfield.TextInputLayout>
 
-
         <!-- Save button -->
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnSaveInfo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Lưu thông tin"
+            android:text="Save Info"
             android:layout_marginTop="24dp"
             style="@style/Widget.MaterialComponents.Button"
             android:backgroundTint="#36B2E0"

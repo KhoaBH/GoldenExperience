@@ -6,6 +6,7 @@ data class User(
     val gender: String = "",
     val height: Double = 0.0,
     val latestWeight: Double = 0.0,
-    val activityLevel: String = "",     // Ví dụ: Low / Medium / High
+    val activityLevel: String = "",
+    val dob: String = "" ,
     val target: Double = 0.0,           // Ví dụ: Giảm cân / Giữ cân / Tăng cân
 )

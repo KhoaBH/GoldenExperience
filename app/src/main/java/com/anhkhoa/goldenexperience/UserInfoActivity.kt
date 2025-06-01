@@ -18,10 +18,9 @@ class UserInfoActivity : AppCompatActivity() {
     private lateinit var edtWeight: EditText
     private lateinit var edtTarget: EditText
     private lateinit var btnSave: Button
-
+    private lateinit var edtDOB: EditText
     private lateinit var genderSpinner: Spinner
     private lateinit var activitySpinner: Spinner
-
     private val auth = FirebaseAuth.getInstance()
     private val db = FirebaseFirestore.getInstance()
     private val weightRepository = WeightRepository()
@@ -39,11 +38,11 @@ class UserInfoActivity : AppCompatActivity() {
         edtTarget = findViewById(R.id.edtTarget)
         genderSpinner = findViewById(R.id.spnGender)
         activitySpinner = findViewById(R.id.spnActivityLevel)
-
+        edtDOB = findViewById(R.id.edtDateOfBirth)
         // Gắn dữ liệu cho Spinner
         setupSpinner(genderSpinner, R.array.gender_options)
         setupSpinner(activitySpinner, R.array.activity_levels)
-
+        loadUserInfo()
         btnSave.setOnClickListener {
             saveUserInfo()
         }
@@ -58,10 +57,39 @@ class UserInfoActivity : AppCompatActivity() {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
     }
+    private fun loadUserInfo() {
+        val uid = auth.currentUser?.uid ?: return
+        db.collection("users").document(uid).get()
+            .addOnSuccessListener { document ->
+                if (document.exists()) {
+                    val user = document.toObject(User::class.java)
+                    user?.let {
+                        edtName.setText(it.name)
+                        edtAge.setText(it.age.toString())
+                        edtHeight.setText(it.height.toString())
+                        edtWeight.setText(it.latestWeight.toString())
+                        edtTarget.setText(it.target.toString())
+                        edtDOB.setText(it.dob.toString())
+                        // Set selected item cho gender spinner
+                        val genderIndex = (genderSpinner.adapter as ArrayAdapter<String>)
+                            .getPosition(it.gender)
+                        genderSpinner.setSelection(genderIndex)
 
+                        // Set selected item cho activity level spinner
+                        val activityIndex = (activitySpinner.adapter as ArrayAdapter<String>)
+                            .getPosition(it.activityLevel)
+                        activitySpinner.setSelection(activityIndex)
+                    }
+                }
+            }
+            .addOnFailureListener {
+                Toast.makeText(this, "Không thể tải thông tin người dùng", Toast.LENGTH_SHORT).show()
+            }
+    }
     private fun saveUserInfo() {
         val name = edtName.text.toString().trim()
         val age = edtAge.text.toString().toIntOrNull() ?: 0
+        val dob = edtDOB.text.toString()
         val height = edtHeight.text.toString().toDoubleOrNull() ?: 0.0
         val weight = edtWeight.text.toString().toDoubleOrNull() ?: 0.0
         val target = edtTarget.text.toString().toDoubleOrNull() ?: 0.0
@@ -81,7 +109,8 @@ class UserInfoActivity : AppCompatActivity() {
             height = height,
             latestWeight = weight,
             activityLevel = activityLevel,
-            target = target
+            target = target,
+            dob = dob
         )
 
         val uid = auth.currentUser?.uid ?: return

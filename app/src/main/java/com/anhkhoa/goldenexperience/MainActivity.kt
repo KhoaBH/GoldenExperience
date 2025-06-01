@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_home -> loadFragment(HomeFragment())
                 R.id.nav_search -> loadFragment(WeightFragment())
-                //R.id.nav_profile -> loadFragment(UserFragment())
+                R.id.nav_profile -> loadFragment(UserFragment())
             }
             true
         }
