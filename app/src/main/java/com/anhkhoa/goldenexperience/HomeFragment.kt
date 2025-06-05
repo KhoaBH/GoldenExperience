@@ -1,5 +1,6 @@
 package com.anhkhoa.goldenexperience
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -33,9 +34,10 @@ class HomeFragment : Fragment() {
             loadFragment(WeightFragment())
         }
 
-//        view.findViewById<View>(R.id.focusCard)?.setOnClickListener {
-//            loadFragment(FocusFragment())
-//        }
+        view.findViewById<View>(R.id.focusCard)?.setOnClickListener {
+            val intent = Intent(requireContext(), FocusActivity::class.java)
+            startActivity(intent)
+        }
 //
         view.findViewById<View>(R.id.mealCard)?.setOnClickListener {
             loadFragment(MealPrepFragment())

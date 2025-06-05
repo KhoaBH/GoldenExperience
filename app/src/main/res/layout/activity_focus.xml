@@ -1,0 +1,229 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@drawable/background_timer">
+    <ImageButton
+        android:id="@+id/btnBack"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_back_white"
+        android:contentDescription="Back"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="16dp"/>
+    <TextView
+        android:id="@+id/Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Focus Time"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <!-- Nhóm trước khi bắt đầu -->
+    <androidx.constraintlayout.widget.Group
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/group_pre_start"
+        android:visibility="gone"
+        app:constraint_referenced_ids="layout_time_picker,btn_start"/>
+
+    <!-- Nhóm khi đang đếm giờ -->
+    <androidx.constraintlayout.widget.Group
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:id="@+id/group_timer"
+        android:visibility="visible"
+        app:constraint_referenced_ids="layout_dots,main_timer,tv_status,icon_status,btn_action,btn_stop"/>
+
+    <!-- PHẦN CHỌN THỜI GIAN -->
+    <LinearLayout
+        android:id="@+id/layout_time_picker"
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="32dp"
+        android:padding="8dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/picker_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Session duration"
+            android:textColor="#FFFFFF"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="24dp"/>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical">
+
+            <ImageButton
+                android:id="@+id/btn_minus"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_minus"
+                android:contentDescription="Decrease time"
+                android:layout_marginEnd="16dp"/>
+
+            <TextView
+                android:id="@+id/tv_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="15:00"
+                android:textSize="70sp"
+                android:textStyle="bold"
+                android:textColor="#FFFFFF"
+                android:gravity="center"
+                android:layout_marginEnd="16dp"/>
+
+            <ImageButton
+                android:id="@+id/btn_plus"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_plus"
+                android:contentDescription="Increase time"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Start focus session"
+        android:textSize="22sp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/white"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toBottomOf="@id/layout_time_picker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Chấm trạng thái session -->
+
+    <!-- Timer vòng tròn -->
+    <com.mut_jaeryo.circletimer.CircleTimer
+        android:id="@+id/main_timer"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:isOutline="true"
+        app:show_text="true"
+        app:outline_color="#FFFFFF"
+        app:text_color="#FFFFFF"
+        app:wheel_active_color="#FFFFFF"
+        app:wheel_background_color="#00000000"        android:layout_marginTop="80dp"
+        app:layout_constraintTop_toTopOf="@+id/Title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+    <!-- Trạng thái -->
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Focus Time"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:layout_marginTop="30dp"
+        app:layout_constraintTop_toBottomOf="@id/main_timer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Icon trạng thái -->
+    <LinearLayout
+        android:id="@+id/layout_dots"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/icon_status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/background_dot_active"/>
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/background_dot_inactive"/>
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/background_dot_inactive"/>
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/background_dot_inactive"/>
+
+        <View
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="4dp"
+            android:background="@drawable/background_dot_inactive"/>
+    </LinearLayout>
+    <ImageView
+        android:id="@+id/icon_status"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/ic_work"
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_status"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <!-- Nút Start/Pause/Resume -->
+    <ImageView
+        android:id="@+id/btn_action"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_pause_green"
+        android:background="@drawable/rounded_button_bg"
+        android:padding="4dp"
+        android:layout_margin="30dp"
+        android:contentDescription="Play"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_dots"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+    <ImageView
+        android:id="@+id/btn_stop"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:src="@drawable/ic_stop"
+        android:background="@drawable/rounded_button_bg"
+        android:padding="4dp"
+        android:layout_margin="30dp"
+        android:contentDescription="Play"
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/layout_dots"
+        app:layout_constraintStart_toEndOf="@+id/btn_action" />
+</androidx.constraintlayout.widget.ConstraintLayout>

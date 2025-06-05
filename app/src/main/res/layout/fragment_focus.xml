@@ -1,0 +1,84 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="24dp"
+    >
+
+    <!-- Phần chọn thời gian (mặc định visible) -->
+    <LinearLayout
+        android:id="@+id/layout_time_picker"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/btn_minus"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/tv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="15 phút"
+            android:textSize="24sp"
+            android:layout_marginHorizontal="24dp"
+            android:gravity="center"
+            />
+
+        <Button
+            android:id="@+id/btn_plus"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:text="+" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:text="Bắt đầu"
+        app:layout_constraintTop_toBottomOf="@id/layout_time_picker"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp"/>
+
+    <!-- Timer vòng tròn (mặc định ẩn) -->
+    <com.mut_jaeryo.circletimer.CircleTimer
+        android:id="@+id/main_timer"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:isOutline="true"
+        app:show_text="true"
+        app:outline_color="#222831"
+        app:text_color="#222831"
+        app:wheel_active_color="#00ADB5"
+        app:wheel_background_color="#EEEEEE"
+        app:layout_constraintTop_toBottomOf="@id/btn_start"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp"
+        android:visibility="gone"/>
+
+    <!-- Text trạng thái -->
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Chọn thời gian tập"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/main_timer"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="24dp"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

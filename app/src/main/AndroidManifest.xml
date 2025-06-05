@@ -19,6 +19,9 @@
         android:theme="@style/Theme.GoldenExperience"
         tools:targetApi="31">
         <activity
+            android:name=".FocusActivity"
+            android:exported="false" />
+        <activity
             android:name=".MealPlanActivity"
             android:exported="false" />
         <activity
