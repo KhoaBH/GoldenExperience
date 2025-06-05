@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.WindowManager
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
@@ -130,6 +131,7 @@ class MealPlanActivity : AppCompatActivity() {
             .setCancelable(true)
             .create()
         dialog.show()
+        dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         val searchEditText = dialogView.findViewById<EditText>(R.id.searchMealEditText)
         val recyclerView = dialogView.findViewById<RecyclerView>(R.id.recyclerSearchMeal)

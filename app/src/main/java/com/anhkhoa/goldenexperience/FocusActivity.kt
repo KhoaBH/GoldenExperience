@@ -28,17 +28,17 @@ class FocusActivity : AppCompatActivity() {
     private lateinit var groupTimer: Group
     private lateinit var btnAction: ImageView
     private lateinit var btnStop: ImageView
-    private var focusTime = 15 * 60
+    private var focusTime = 10 * 60 // mặc định 25 phút, có thể tăng giảm
     private val increment = 15 * 60
     private val restTime = 5 * 60
     private var isPaused = false
-    private var isFocusPhase = true
+    private var isFocusPhase = false
     private var isTimerRunning = false
-
+    private var cycleCount = 0
+    private val maxCycles = 4
+    var totalFocusTimeLeft = 0
+    private lateinit var btnBack: ImageButton
     private val focusColor = Color.parseColor("#5E7753")  // xanh lá đậm
-    private val restColor = Color.parseColor("#FFFFFF")    // trắng
-    private val restAltColor = Color.WHITE
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_focus)
@@ -57,7 +57,7 @@ class FocusActivity : AppCompatActivity() {
         btnAction  = findViewById(R.id.btn_action)
         btnStop  = findViewById(R.id.btn_stop)
         updateTimeDisplay(focusTime)
-
+        btnBack  = findViewById(R.id.btnBack)
         btnPlus.setOnClickListener {
             focusTime += increment
             updateTimeDisplay(focusTime)
@@ -85,22 +85,73 @@ class FocusActivity : AppCompatActivity() {
                 }
             }
         }
-        btnStop.setOnClickListener {
-            AlertDialog.Builder(this)
-                .setTitle("Dừng phiên?")
-                .setMessage("Mày có chắc muốn dừng không? Phiên này sẽ reset về đầu á.")
-                .setPositiveButton("Dừng luôn") { dialog, _ ->
-                    timer.reset()
-                    resetUI()
+        btnBack.setOnClickListener{
+            if(isFocusPhase){
+                val dialogView = layoutInflater.inflate(R.layout.dialog_confirm_stop, null)
+                val dialog = android.app.AlertDialog.Builder(this)
+                    .setView(dialogView)
+                    .setCancelable(true)
+                    .create()
+
+                val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
+                val btnConfirm = dialogView.findViewById<Button>(R.id.btn_confirm)
+
+                btnCancel.setOnClickListener {
+                    dialog.dismiss()
                 }
-                .setNegativeButton("Hủy", null)
-                .show()
+
+                btnConfirm.setOnClickListener {
+                    timer.reset()
+                    cycleCount = 0
+                    isTimerRunning = false
+                    isPaused = false
+                    super.onBackPressed()
+                }
+
+                dialog.window?.setBackgroundDrawableResource(android.R.color.transparent) // xoá viền mặc định
+                dialog.window?.attributes?.windowAnimations = R.style.DialogFadeAnimation
+                dialog.show()
+            }
+            else
+                super.onBackPressed()
         }
+        btnStop.setOnClickListener {
+            val dialogView = layoutInflater.inflate(R.layout.dialog_confirm_stop, null)
+            val dialog = android.app.AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(true)
+                .create()
+
+            val btnCancel = dialogView.findViewById<Button>(R.id.btn_cancel)
+            val btnConfirm = dialogView.findViewById<Button>(R.id.btn_confirm)
+
+            btnCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            btnConfirm.setOnClickListener {
+                timer.reset()
+                resetUI()
+                cycleCount = 0
+                isTimerRunning = false
+                isPaused = false
+                dialog.dismiss()
+            }
+
+            dialog.window?.setBackgroundDrawableResource(android.R.color.transparent) // xoá viền mặc định
+            dialog.window?.attributes?.windowAnimations = R.style.DialogFadeAnimation
+            dialog.show()
+        }
+
         btnStart.setOnClickListener {
             groupPreStart.visibility = View.GONE
             groupTimer.visibility = View.VISIBLE
-            startFocusSession()
+            cycleCount = 0
+            isFocusPhase = true
+            totalFocusTimeLeft = focusTime
+            startPhase()
         }
+
     }
 
     private fun updateTimeDisplay(seconds: Int) {
@@ -108,39 +159,49 @@ class FocusActivity : AppCompatActivity() {
         tvTime.text = "$minutes : 00"
     }
 
-    private fun startFocusSession() {
+    private fun startPhase() {
+        if (cycleCount >= maxCycles) {
+            Toast.makeText(this, "Hoàn thành $maxCycles chu kỳ Pomodoro, nghỉ dài thôi bro!", Toast.LENGTH_SHORT).show()
+            resetUI()
+            isTimerRunning = false
+            return
+        }
+
         isTimerRunning = true
-        isFocusPhase = true
+        timer.reset()
 
-        layoutTimePicker.visibility = View.GONE
-        btnStart.visibility = View.GONE
-        timer.visibility = View.VISIBLE
-
-        setPhaseBackground(isFocus = true)
-
-        timer.setMaximumTime(10)
-        timer.setInitPosition(5)
+        if (isFocusPhase) {
+            setPhaseBackground(true)
+            if(totalFocusTimeLeft > 1500){
+                timer.setMaximumTime(1500)
+                timer.setInitPosition(1500)
+                totalFocusTimeLeft -= 1500
+            }
+            else
+            {
+                timer.setMaximumTime(totalFocusTimeLeft)
+                timer.setInitPosition(totalFocusTimeLeft)
+            }
+            updateTimeDisplay(totalFocusTimeLeft)
+        } else {
+            setPhaseBackground(false)
+            timer.setMaximumTime(300)
+            timer.setInitPosition(300)
+            updateTimeDisplay(restTime)
+        }
 
         timer.setBaseTimerEndedListener(object : CircleTimer.baseTimerEndedListener {
             override fun OnEnded() {
                 if (isFocusPhase) {
                     isFocusPhase = false
-                    startRestPhase()
                 } else {
-                    isTimerRunning = false
-                    Toast.makeText(this@FocusActivity, "Hoàn thành chu kỳ bro!", Toast.LENGTH_SHORT).show()
-                    resetUI()
+                    isFocusPhase = true
+                    cycleCount++
                 }
+                startPhase()
             }
         })
 
-        timer.start()
-    }
-
-    private fun startRestPhase() {
-        setPhaseBackground(isFocus = false)
-        timer.setMaximumTime(restTime)
-        timer.setInitPosition(restTime)
         timer.start()
     }
 
@@ -149,6 +210,8 @@ class FocusActivity : AppCompatActivity() {
         btnStart.visibility = View.VISIBLE
         groupPreStart.visibility = View.VISIBLE
         groupTimer.visibility = View.GONE
+        isPaused = false
+        btnAction.setImageResource(R.drawable.ic_play)
     }
 
     private fun setPhaseBackground(isFocus: Boolean) {
@@ -169,16 +232,28 @@ class FocusActivity : AppCompatActivity() {
             iconStatus.setImageResource(R.drawable.ic_work)
             iconStatus.setColorFilter(Color.WHITE)
         } else {
-            iconStatus.setImageResource(R.drawable.ic_rest) // icon nghỉ (đổi cho hợp)
+            iconStatus.setImageResource(R.drawable.ic_rest) // icon nghỉ
         }
     }
 
-
-
     override fun onPause() {
         super.onPause()
-        if (isTimerRunning) {
-            Toast.makeText(this, "Thoát giữa chừng trừ điểm bro!", Toast.LENGTH_SHORT).show()
+        if (isTimerRunning && !isPaused) {
+            val alertDialog = AlertDialog.Builder(this)
+                .setTitle("Session Interrupted")
+                .setMessage("You exited during a focus session. This session will be cancelled and not counted in your stats.")
+                .setPositiveButton("OK") { dialog, _ ->
+                    dialog.dismiss()
+                    timer.stop()
+                    isPaused = false
+                    isTimerRunning = false
+                    resetUI()
+                    // Optionally reset UI, like resetting the timer
+                }
+                .setCancelable(false)
+                .create()
+            alertDialog.show()
         }
+
     }
 }

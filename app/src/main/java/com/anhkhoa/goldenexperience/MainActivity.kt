@@ -19,10 +19,23 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Load fragment mặc định
         loadFragment(HomeFragment())
 
-        // Navigation bottom
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            db.collection("users").document(currentUser.uid).get()
+                .addOnSuccessListener { document ->
+                    val isAdmin = document.getString("admin") == "1"
+                    if (!isAdmin) {
+                        val menu = binding.bottomNavigationView.menu
+                        menu.findItem(R.id.nav_search).isVisible = false
+                    }
+                }
+                .addOnFailureListener { e ->
+                    binding.bottomNavigationView.menu.findItem(R.id.nav_search).isVisible = false
+                }
+        }
+
         binding.bottomNavigationView.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_home -> loadFragment(HomeFragment())
@@ -32,6 +45,7 @@ class MainActivity : AppCompatActivity() {
             true
         }
     }
+
 
     private fun loadFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
