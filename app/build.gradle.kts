@@ -45,7 +45,6 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.firebase.firestore.ktx)
-    implementation(libs.firebase.storage.ktx)
     testImplementation(libs.junit)
     implementation ("com.github.bumptech.glide:glide:4.15.1")
     implementation ("com.google.firebase:firebase-storage")
